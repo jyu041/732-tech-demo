@@ -1,0 +1,79 @@
+/* Common page styles */
+.settings-page,
+.contacts-page,
+.chat-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-content,
+.contacts-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* Settings page */
+.theme-section,
+.user-profile-section,
+.app-info-section {
+  background-color: var(--bg-tertiary);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+/* Contacts page */
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-card {
+  background-color: var(--bg-tertiary);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.contact-details {
+  margin-left: 16px;
+}
+
+.contact-personality {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.confirm-delete {
+  background-color: var(--bg-secondary);
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
