@@ -23,11 +23,7 @@ const SettingsPage = ({ user, setUser }) => {
   return (
     <div className="settings-page">
       <header className="app-header">
-        <Button variant="secondary" onClick={goBack}>
-          ← Back
-        </Button>
-        <h1>Settings</h1>
-        <div></div> {/* Empty div for flexbox spacing */}
+        {/* <h1 className="app-title">Me</h1> */}
       </header>
 
       <div className="settings-content">
@@ -37,7 +33,7 @@ const SettingsPage = ({ user, setUser }) => {
         </section>
 
         <section className="user-profile-section">
-          <h2>Your Profile</h2>
+          <h2>You</h2>
 
           {!showProfileForm ? (
             <div className="profile-summary">
@@ -76,8 +72,13 @@ const SettingsPage = ({ user, setUser }) => {
 
         <section className="app-info-section">
           <h2>About</h2>
-          <p>Ex-Girlfriend Simulator v1.0</p>
+          <p>Ex-Girlfriend Simulator v9.22</p>
           <p>A place to have that one last conversation.</p>
+        </section>
+        <section className="app-info-section">
+          <h2>Version 9.22</h2>
+          <p>Why version 9.22? </p>
+          <p>because that's my ex's birthday</p>
         </section>
       </div>
     </div>

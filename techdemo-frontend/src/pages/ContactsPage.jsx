@@ -144,10 +144,7 @@ const ContactsPage = () => {
   return (
     <div className="contacts-page">
       <header className="app-header">
-        <Button variant="secondary" onClick={goBack}>
-          ← Back
-        </Button>
-        <h1>Contacts</h1>
+        <h1 className="app-title">Contacts</h1>
         <Button onClick={() => setEditingExId("new")}>Add New</Button>
       </header>
 
@@ -161,10 +158,10 @@ const ContactsPage = () => {
             {exGirlfriends.length === 0 ? (
               <div className="empty-state">
                 <h2>No Contacts Yet</h2>
-                <p>Add an ex-girlfriend profile to start chatting.</p>
-                <Button onClick={() => setEditingExId("new")}>
+                <p>Add a contact to start making friends.</p>
+                {/* <Button onClick={() => setEditingExId("new")}>
                   Add Ex-Girlfriend
-                </Button>
+                </Button> */}
               </div>
             ) : (
               exGirlfriends.map((ex) => renderExGirlfriendCard(ex))

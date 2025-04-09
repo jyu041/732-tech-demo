@@ -4,13 +4,49 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import HomePage from "./pages/HomePage";
 import ChatPage from "./pages/ChatPage";
 import SettingsPage from "./pages/SettingsPage";
 import ContactsPage from "./pages/ContactsPage";
+import StatusBar from "./components/common/StatusBar";
+import BottomNav from "./components/common/BottomNav";
 import "./index.css";
+import "./styles/components.css";
+import "./styles/pages.css";
+import "./styles/modals.css";
+
+// Create a layout component that conditionally renders the bottom nav
+const AppLayout = ({ user, setUser }) => {
+  const location = useLocation();
+
+  // Hide bottom nav when in chat pages
+  const showBottomNav = !location.pathname.includes("/chat/");
+
+  return (
+    <>
+      <StatusBar />
+      <div className={`app-content ${!showBottomNav ? "no-bottom-nav" : ""}`}>
+        <Routes>
+          <Route
+            path="/"
+            element={<HomePage user={user} setUser={setUser} />}
+          />
+          <Route path="/chat/:chatId" element={<ChatPage user={user} />} />
+          <Route
+            path="/settings"
+            element={<SettingsPage user={user} setUser={setUser} />}
+          />
+          <Route path="/contacts" element={<ContactsPage user={user} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+      {showBottomNav && <BottomNav />}
+    </>
+  );
+};
 
 function App() {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -31,7 +67,6 @@ function App() {
         setIsInitialized(true);
       }
     };
-
     checkUserProfile();
   }, []);
 
@@ -42,26 +77,9 @@ function App() {
   return (
     <ThemeProvider>
       <div className="app">
-        <div className="iphone-status-bar">
-          {/* Mobile status bar icons could go here */}
-        </div>
-        <div className="app-content">
-          <Router>
-            <Routes>
-              <Route
-                path="/"
-                element={<HomePage user={user} setUser={setUser} />}
-              />
-              <Route path="/chat/:chatId" element={<ChatPage user={user} />} />
-              <Route
-                path="/settings"
-                element={<SettingsPage user={user} setUser={setUser} />}
-              />
-              <Route path="/contacts" element={<ContactsPage user={user} />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Router>
-        </div>
+        <Router>
+          <AppLayout user={user} setUser={setUser} />
+        </Router>
       </div>
     </ThemeProvider>
   );

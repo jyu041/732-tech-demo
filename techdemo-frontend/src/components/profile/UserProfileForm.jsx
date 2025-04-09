@@ -1,21 +1,19 @@
+// components/profile/UserProfileForm.jsx
 import { useState } from "react";
 import Button from "../common/Button";
 import Avatar from "../common/Avatar";
 import ImageCropper from "../common/ImageCropper";
 import profileService from "../../services/profileService";
 
-/**
- * Component for creating/updating user profile
- */
 const UserProfileForm = ({ user, onUpdate }) => {
   const [username, setUsername] = useState(user?.username || "");
   const [profilePicture, setProfilePicture] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [cropImage, setCropImage] = useState(null); // Added this state
+  const [tempFile, setTempFile] = useState(null); // Added this state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [cropImage, setCropImage] = useState(null);
-  const [tempFile, setTempFile] = useState(null);
 
   // Handle profile picture selection
   const handleProfilePictureChange = (e) => {
@@ -33,6 +31,7 @@ const UserProfileForm = ({ user, onUpdate }) => {
     }
   };
 
+  // Add crop completion handler
   const handleCropComplete = (croppedBlob) => {
     setProfilePicture(croppedBlob);
 
@@ -51,6 +50,10 @@ const UserProfileForm = ({ user, onUpdate }) => {
   const handleCropCancel = () => {
     setCropImage(null);
     setTempFile(null);
+
+    // Reset file input
+    const fileInput = document.getElementById("user-profile-picture");
+    if (fileInput) fileInput.value = "";
   };
 
   // Submit form to update profile
@@ -122,17 +125,6 @@ const UserProfileForm = ({ user, onUpdate }) => {
             onChange={handleProfilePictureChange}
             accept="image/*"
           />
-          {cropImage && (
-            <div className="modal-overlay">
-              <div className="modal-content">
-                <ImageCropper
-                  image={cropImage}
-                  onCropComplete={handleCropComplete}
-                  onCancel={handleCropCancel}
-                />
-              </div>
-            </div>
-          )}
         </div>
 
         <div className="profile-preview">
@@ -156,6 +148,15 @@ const UserProfileForm = ({ user, onUpdate }) => {
           {loading ? "Updating..." : "Save Profile"}
         </Button>
       </form>
+
+      {/* Add the image cropper component */}
+      {cropImage && (
+        <ImageCropper
+          image={cropImage}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+        />
+      )}
     </div>
   );
 };

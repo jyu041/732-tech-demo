@@ -45,13 +45,7 @@ const HomePage = ({ user, setUser }) => {
   return (
     <div className="home-page">
       <header className="app-header">
-        {/* <h1 className="app-title">Ex-Girlfriend Simulator</h1> */}
-        <div className="header-controls">
-          <Button onClick={() => navigate("/contacts")}>Contacts</Button>
-          <Button variant="secondary" onClick={() => navigate("/settings")}>
-            Settings
-          </Button>
-        </div>
+        <h1 className="app-title"></h1>
       </header>
 
       <div className="home-content">
@@ -68,11 +62,11 @@ const HomePage = ({ user, setUser }) => {
             <>
               {exGirlfriends.length === 0 ? (
                 <div className="empty-state">
-                  <h2>No Ex-Girlfriends Yet</h2>
-                  <p>Add an ex-girlfriend profile to start chatting.</p>
-                  <Button onClick={() => navigate("/contacts")}>
+                  <h2>No Conversations Yet</h2>
+                  <p>Start a conversation with your friend.</p>
+                  {/* <Button onClick={() => navigate("/contacts")}>
                     Add Ex-Girlfriend
-                  </Button>
+                  </Button> */}
                 </div>
               ) : (
                 <ChatList userData={user} />

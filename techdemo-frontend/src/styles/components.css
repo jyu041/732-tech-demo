@@ -1,92 +1,293 @@
 /* Profile and form components */
 .profile-form {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-form.fullscreen {
+  padding-bottom: 70px; /* Space for fixed buttons */
+}
+
+.form-actions-fixed {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  z-index: 10;
+}
+
+.profile-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-header {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Chat components */
+.message-container {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  padding: 0 8px;
+}
+
+.message-container-user {
+  justify-content: flex-end;
+}
+
+.message-container-other {
+  justify-content: flex-start;
+}
+
+.message-avatar-container {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  margin: 0 4px 2px 4px;
+}
+
+.message-bubble {
+  max-width: 70%;
+  padding: 8px 12px;
+  border-radius: 18px;
+  position: relative;
+}
+
+.message-user {
+  background-color: var(--bubble-user);
+  border-bottom-right-radius: 4px;
+}
+
+.message-other {
+  background-color: var(--bubble-other);
+  border-bottom-left-radius: 4px;
+}
+
+.message-content {
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.message-time {
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-align: right;
+  margin-top: 2px;
+}
+
+.chat-messages {
+  padding: 10px 4px;
+}
+
+/* Enhanced Status Bar */
+.iphone-status-bar {
+  height: 44px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 100;
+}
+
+.iphone-status-bar:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 30px;
+  background-color: #000;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  z-index: -1;
+}
+
+.status-time {
+  padding-left: 20px;
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-signal,
+.status-wifi,
+.status-battery {
+  display: flex;
+  align-items: center;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav {
+  height: 60px;
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  z-index: 50;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  width: 25%;
+  height: 100%;
+}
+
+.nav-item.active {
+  color: var(--accent-color);
+}
+
+.nav-text {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Theme-specific bottom nav styling */
+.bottom-nav.theme-instagram {
+  height: 50px;
+}
+
+.bottom-nav.theme-instagram .nav-item {
+  font-size: 10px;
+}
+
+.bottom-nav.theme-discord {
+  background-color: var(--bg-tertiary);
+  height: 60px;
+}
+
+.bottom-nav.theme-discord .nav-item.active {
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+}
+
+.bottom-nav.theme-wechat {
+  background-color: var(--bg-tertiary);
+  height: 55px;
+}
+
+.bottom-nav.theme-wechat .nav-item.active {
+  color: var(--accent-color);
+}
+
+/* Adjust app-content to account for bottom nav */
+.app-content {
+  height: calc(100% - 44px - 60px); /* Subtract status bar and bottom nav heights */
+  overflow-y: auto;
+  position: relative;
+}
+
+.image-cropper-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dimmed-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.image-cropper-modal {
+  position: relative;
+  width: 90%;
+  max-height: 80%;
+  background-color: var(--bg-primary);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  z-index: 201;
+}
+
+.crop-container {
+  flex: 1;
+  margin: 16px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  min-height: 300px; /* Add minimum height */
+}
+
+.crop-image {
+  max-width: 100%;
+  max-height: 60vh;
+}
+
+.crop-actions-fixed {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Make ReactCrop container larger */
+.ReactCrop {
+  width: 100%;
+  max-height: 70vh;
+  display: flex;
+  justify-content: center;
+}
+
+/* Fix for smaller screens */
+@media (max-height: 600px) {
+  .image-cropper-modal {
+    max-height: 90%;
   }
   
-  .profile-form.fullscreen {
-    padding-bottom: 70px; /* Space for fixed buttons */
+  .crop-container {
+    min-height: 200px;
   }
-  
-  .form-actions-fixed {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    padding: 16px;
-    background-color: var(--bg-primary);
-    border-top: 1px solid var(--border-color);
-    z-index: 10;
-  }
-  
-  .profile-summary {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .profile-header {
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Chat components */
-  .message-container {
-    display: flex;
-    align-items: flex-end;
-    margin-bottom: 10px;
-    padding: 0 8px;
-  }
-  
-  .message-container-user {
-    justify-content: flex-end;
-  }
-  
-  .message-container-other {
-    justify-content: flex-start;
-  }
-  
-  .message-avatar-container {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    margin: 0 4px 2px 4px;
-  }
-  
-  .message-bubble {
-    max-width: 70%;
-    padding: 8px 12px;
-    border-radius: 18px;
-    position: relative;
-  }
-  
-  .message-user {
-    background-color: var(--bubble-user);
-    border-bottom-right-radius: 4px;
-  }
-  
-  .message-other {
-    background-color: var(--bubble-other);
-    border-bottom-left-radius: 4px;
-  }
-  
-  .message-content {
-    font-size: 14px;
-    line-height: 1.4;
-    word-wrap: break-word;
-  }
-  
-  .message-time {
-    font-size: 10px;
-    color: var(--text-secondary);
-    text-align: right;
-    margin-top: 2px;
-  }
-  
-  .chat-messages {
-    padding: 10px 4px;
-  }
+}
+
+.app-content {
+  height: calc(100% - 44px - 60px); /* Subtract status bar and bottom nav heights */
+  overflow-y: auto;
+  position: relative;
+}
+
+.app-content.no-bottom-nav {
+  height: calc(100% - 44px); /* Only subtract status bar height */
+  overflow: hidden;
+}

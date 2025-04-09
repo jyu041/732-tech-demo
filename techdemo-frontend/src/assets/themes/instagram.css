@@ -104,3 +104,12 @@
     border-left: 1px solid var(--border-color);
     padding: 16px;
   }
+
+  .theme-instagram .bottom-nav {
+    background-color: #ffffff;
+    border-top: 1px solid #dbdbdb;
+  }
+  
+  .theme-instagram .nav-item.active {
+    color: #0095f6;
+  }

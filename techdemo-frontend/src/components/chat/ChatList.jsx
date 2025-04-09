@@ -81,8 +81,8 @@ const ChatList = ({ userData }) => {
     if (chats.length === 0) {
       return (
         <div className="empty-state">
-          <p>No conversations yet.</p>
-          <p>Create one by adding an ex-girlfriend profile first.</p>
+          <p>No Conversations Yet</p>
+          <p>Start a conversation with your friend.</p>
         </div>
       );
     }
@@ -154,7 +154,7 @@ const ChatList = ({ userData }) => {
   return (
     <div className="chat-list">
       <div className="existing-chats-section">
-        <h3>Conversations</h3>
+        {/* <h3>Conversations</h3> */}
         {renderChats()}
       </div>
       {renderNewChatOptions()}

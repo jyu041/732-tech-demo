@@ -132,3 +132,13 @@
     color: var(--text-primary);
     border: 1px solid var(--border-color);
   }
+
+  .theme-discord .bottom-nav {
+    background-color: #2f3136;
+    border-top: 1px solid #40444b;
+  }
+  
+  .theme-discord .nav-item.active {
+    color: #5865f2;
+    background-color: #36393f;
+  }

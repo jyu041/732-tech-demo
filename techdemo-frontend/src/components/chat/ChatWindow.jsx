@@ -6,9 +6,6 @@ import ChatBubble from "./ChatBubble";
 import ChatInput from "./ChatInput";
 import ThemeToggle from "../common/ThemeToggle";
 
-/**
- * Main component for the chat interface
- */
 const ChatWindow = ({ chatId, user }) => {
   const [messages, setMessages] = useState([]);
   const [exGirlfriend, setExGirlfriend] = useState(null);
@@ -18,18 +15,8 @@ const ChatWindow = ({ chatId, user }) => {
   const [showSettings, setShowSettings] = useState(false);
 
   const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    if (messages.length > 0) {
-      console.log("Current messages in state:", messages);
-      // Check if messages have the correct isFromUser property
-      const userMessages = messages.filter((msg) => msg.isFromUser === true);
-      const aiMessages = messages.filter((msg) => msg.isFromUser === false);
-      console.log(
-        `User messages: ${userMessages.length}, AI messages: ${aiMessages.length}`
-      );
-    }
-  }, [messages]);
+  const chatMessagesRef = useRef(null);
+  const inputRef = useRef(null);
 
   // Load chat data and messages
   useEffect(() => {
@@ -48,7 +35,6 @@ const ChatWindow = ({ chatId, user }) => {
 
         // Get chat messages
         const messageData = await chatService.getChatMessages(chatId);
-        console.log("Raw message data:", messageData);
 
         // Fix the property mismatch - convert fromUser to isFromUser
         const processedMessages = messageData.map((msg) => {
@@ -59,7 +45,6 @@ const ChatWindow = ({ chatId, user }) => {
           };
         });
 
-        console.log("Processed messages:", processedMessages);
         setMessages(processedMessages);
       } catch (err) {
         console.error("Error loading chat:", err);
@@ -77,6 +62,13 @@ const ChatWindow = ({ chatId, user }) => {
   // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
+  }, [messages]);
+
+  // Focus input after messages change
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [messages]);
 
   const scrollToBottom = () => {
@@ -106,7 +98,6 @@ const ChatWindow = ({ chatId, user }) => {
 
       // Send to API and get AI response
       const response = await chatService.sendMessage(chatId, content);
-      console.log("API response:", response);
 
       // Remove temporary message
       setMessages((prev) =>
@@ -140,6 +131,11 @@ const ChatWindow = ({ chatId, user }) => {
       setMessages((prev) => prev.filter((msg) => !msg.id.startsWith("temp-")));
     } finally {
       setSendingMessage(false);
+
+      // Focus the input field after sending
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
     }
   };
 
@@ -153,9 +149,14 @@ const ChatWindow = ({ chatId, user }) => {
 
   return (
     <div className="chat-window">
-      <ChatHeader exGirlfriend={exGirlfriend} toggleSettings={toggleSettings} />
+      <div className="chat-header-fixed">
+        <ChatHeader
+          exGirlfriend={exGirlfriend}
+          toggleSettings={toggleSettings}
+        />
+      </div>
 
-      <div className="chat-content">
+      <div className="chat-content" ref={chatMessagesRef}>
         <div className="chat-messages">
           {messages.map((message) => (
             <ChatBubble
@@ -191,7 +192,13 @@ const ChatWindow = ({ chatId, user }) => {
         )}
       </div>
 
-      <ChatInput onSendMessage={handleSendMessage} isLoading={sendingMessage} />
+      <div className="chat-input-fixed">
+        <ChatInput
+          onSendMessage={handleSendMessage}
+          isLoading={sendingMessage}
+          inputRef={inputRef}
+        />
+      </div>
     </div>
   );
 };

@@ -1,0 +1,60 @@
+
+.chat-window {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.chat-header-fixed {
+position: sticky;
+top: 0;
+z-index: 50;
+background-color: var(--bg-primary);
+border-bottom: 1px solid var(--border-color);
+}
+
+.chat-content {
+flex: 1;
+overflow-y: auto;
+padding-bottom: 70px; /* Make room for fixed input */
+}
+
+.chat-input-fixed {
+/* position: fixed; */
+bottom: 0;
+left: 0;
+right: 0;
+background-color: var(--bg-primary);
+border-top: 1px solid var(--border-color);
+z-index: 50;
+/* padding: 8px 0; */
+}
+
+.chat-messages {
+padding: 16px;
+padding-bottom: 16px;
+}
+
+/* Style update for ChatPage component */
+.chat-page {
+height: 100%;
+display: flex;
+flex-direction: column;
+}
+
+/* Ensure these styles are added to make sure headers stay visible in different themes */
+.theme-instagram .chat-header-fixed,
+.theme-instagram .chat-input-fixed {
+background-color: #ffffff;
+}
+
+.theme-discord .chat-header-fixed,
+.theme-discord .chat-input-fixed {
+background-color: #36393f;
+}
+
+.theme-wechat .chat-header-fixed,
+.theme-wechat .chat-input-fixed {
+background-color: #ededed;
+}
