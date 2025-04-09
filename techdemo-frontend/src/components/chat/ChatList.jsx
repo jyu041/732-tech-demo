@@ -122,7 +122,7 @@ const ChatList = ({ userData }) => {
 
     return (
       <div className="new-chats-section">
-        <h3>Start New Conversation</h3>
+        {/* <h3>Start New Conversation</h3> */}
         {exGirlfriendsWithoutChats.map((exGf) => (
           <div
             key={exGf.id}

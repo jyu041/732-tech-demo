@@ -30,13 +30,13 @@ const ChatHeader = ({ exGirlfriend, toggleSettings }) => {
         </div>
       )}
 
-      <Button
+      {/* <Button
         variant="secondary"
         className="settings-button"
         onClick={toggleSettings}
       >
         ⚙️
-      </Button>
+      </Button> */}
     </div>
   );
 };
