@@ -1,14 +1,12 @@
+// pages/HomePage.jsx
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext, THEMES } from "../context/ThemeContext";
 import ChatList from "../components/chat/ChatList";
 import UserProfileForm from "../components/profile/UserProfileForm";
-import Button from "../components/common/Button";
 import profileService from "../services/profileService";
+import { SearchOutlined } from "@ant-design/icons";
 
-/**
- * Home page component with chat list and profile management
- */
 const HomePage = ({ user, setUser }) => {
   const [exGirlfriends, setExGirlfriends] = useState([]);
   const [showUserForm, setShowUserForm] = useState(!user);
@@ -42,11 +40,60 @@ const HomePage = ({ user, setUser }) => {
     setShowUserForm(false);
   };
 
+  // Get app title based on theme
+  const getAppTitle = () => {
+    switch (theme) {
+      case THEMES.DISCORD:
+        return "Messages";
+      case THEMES.WECHAT:
+        return "WeChat";
+      default: // Instagram
+        return user?.username || "Instagram"; // Show username for Instagram
+    }
+  };
+
+  // Render search bar
+  const renderSearchBar = () => {
+    if (theme === THEMES.WECHAT) {
+      return (
+        <div className="search-bar wechat-search">
+          <div className="search-icon">
+            <SearchOutlined />
+          </div>
+          <input
+            type="text"
+            placeholder="Search"
+            className="search-input"
+            disabled
+          />
+        </div>
+      );
+    } else if (theme === THEMES.INSTAGRAM) {
+      return (
+        <div className="search-bar instagram-search">
+          <div className="search-icon">
+            <SearchOutlined />
+          </div>
+          <input
+            type="text"
+            placeholder="Ask Meta AI or search"
+            className="search-input"
+            disabled
+          />
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <div className="home-page">
-      <header className="app-header">
-        <h1 className="app-title"></h1>
+      <header className={`app-header theme-${theme}-header`}>
+        <h1 className="app-title">{getAppTitle()}</h1>
       </header>
+
+      {renderSearchBar()}
 
       <div className="home-content">
         <main className="main-content">
@@ -62,11 +109,14 @@ const HomePage = ({ user, setUser }) => {
             <>
               {exGirlfriends.length === 0 ? (
                 <div className="empty-state">
-                  <h2>No Conversations Yet</h2>
-                  <p>Start a conversation with your friend.</p>
-                  {/* <Button onClick={() => navigate("/contacts")}>
+                  {/* <h2>No Ex-Girlfriends Yet</h2>
+                  <p>Add an ex-girlfriend profile to start chatting.</p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => navigate("/contacts")}
+                  >
                     Add Ex-Girlfriend
-                  </Button> */}
+                  </button> */}
                 </div>
               ) : (
                 <ChatList userData={user} />
@@ -75,6 +125,20 @@ const HomePage = ({ user, setUser }) => {
           )}
         </main>
       </div>
+
+      {showUserForm && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button
+              className="btn btn-secondary close-button"
+              onClick={() => setShowUserForm(false)}
+            >
+              ✕
+            </button>
+            <UserProfileForm user={user} onUpdate={handleUserUpdate} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

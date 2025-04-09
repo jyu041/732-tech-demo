@@ -17,31 +17,63 @@ import "./index.css";
 import "./styles/components.css";
 import "./styles/pages.css";
 import "./styles/modals.css";
+import "./styles/animations.css";
 
-// Create a layout component that conditionally renders the bottom nav
-const AppLayout = ({ user, setUser }) => {
+// Custom route handler with animation state
+const AnimatedRoutes = ({ user, setUser }) => {
   const location = useLocation();
+  const [prevPath, setPrevPath] = useState(location.pathname);
+  const [transitionClass, setTransitionClass] = useState("");
 
-  // Hide bottom nav when in chat pages
+  useEffect(() => {
+    // Only apply animations when moving between home and chat
+    const isHomePage = prevPath === "/";
+    const isChatPage = prevPath.includes("/chat/");
+    const goingToChat = location.pathname.includes("/chat/");
+    const goingToHome = location.pathname === "/";
+
+    // Only animate when going between home and chat
+    if ((isHomePage && goingToChat) || (isChatPage && goingToHome)) {
+      if (goingToChat) {
+        setTransitionClass("slide-in-right");
+      } else if (goingToHome) {
+        setTransitionClass("slide-out-right");
+      }
+    } else {
+      // No animation for other navigation
+      setTransitionClass("");
+    }
+
+    // Clear transition class after animation completes
+    const timer = setTimeout(() => {
+      setTransitionClass("");
+      setPrevPath(location.pathname);
+    }, 300); // Match this with your CSS transition duration
+
+    return () => clearTimeout(timer);
+  }, [location.pathname, prevPath]);
+
   const showBottomNav = !location.pathname.includes("/chat/");
 
   return (
     <>
       <StatusBar />
       <div className={`app-content ${!showBottomNav ? "no-bottom-nav" : ""}`}>
-        <Routes>
-          <Route
-            path="/"
-            element={<HomePage user={user} setUser={setUser} />}
-          />
-          <Route path="/chat/:chatId" element={<ChatPage user={user} />} />
-          <Route
-            path="/settings"
-            element={<SettingsPage user={user} setUser={setUser} />}
-          />
-          <Route path="/contacts" element={<ContactsPage user={user} />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <div className={`route-container ${transitionClass}`}>
+          <Routes location={location}>
+            <Route
+              path="/"
+              element={<HomePage user={user} setUser={setUser} />}
+            />
+            <Route path="/chat/:chatId" element={<ChatPage user={user} />} />
+            <Route
+              path="/settings"
+              element={<SettingsPage user={user} setUser={setUser} />}
+            />
+            <Route path="/contacts" element={<ContactsPage user={user} />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
       </div>
       {showBottomNav && <BottomNav />}
     </>
@@ -78,7 +110,7 @@ function App() {
     <ThemeProvider>
       <div className="app">
         <Router>
-          <AppLayout user={user} setUser={setUser} />
+          <AnimatedRoutes user={user} setUser={setUser} />
         </Router>
       </div>
     </ThemeProvider>

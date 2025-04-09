@@ -36,12 +36,13 @@ body {
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 /* iPhone container */
 .app {
   width: 428px; /* iPhone 13 Pro Max width */
-  height: 926px; /* iPhone 13 Pro Max height */
+  height: 900px; /* iPhone 13 Pro Max height */
   background-color: var(--bg-primary);
   overflow: hidden;
   position: relative;

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { WifiOutlined } from "@ant-design/icons";
 
 const StatusBar = () => {
   const [currentTime, setCurrentTime] = useState("");
@@ -23,6 +24,7 @@ const StatusBar = () => {
       <div className="status-time">{currentTime}</div>
       <div className="status-icons">
         <div className="status-signal">
+          {/* Custom signal bars - no direct Ant Design equivalent */}
           <svg
             width="18"
             height="12"
@@ -49,26 +51,7 @@ const StatusBar = () => {
           </svg>
         </div>
         <div className="status-wifi">
-          <svg
-            width="16"
-            height="12"
-            viewBox="0 0 16 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M8 9.5C8.82843 9.5 9.5 10.1716 9.5 11C9.5 11.8284 8.82843 12.5 8 12.5C7.17157 12.5 6.5 11.8284 6.5 11C6.5 10.1716 7.17157 9.5 8 9.5Z"
-              fill="currentColor"
-            />
-            <path
-              d="M13.3 6.3C13.7 6.7 13.7 7.3 13.3 7.7C11.4 9.6 9.7 10.5 8 10.5C6.3 10.5 4.6 9.6 2.7 7.7C2.3 7.3 2.3 6.7 2.7 6.3C3.1 5.9 3.7 5.9 4.1 6.3C5.5 7.7 6.7 8.5 8 8.5C9.3 8.5 10.5 7.7 11.9 6.3C12.3 5.9 12.9 5.9 13.3 6.3Z"
-              fill="currentColor"
-            />
-            <path
-              d="M0.5 4.1C0.1 3.7 0.1 3.1 0.5 2.7C4.3 -1.1 11.7 -1.1 15.5 2.7C15.9 3.1 15.9 3.7 15.5 4.1C15.1 4.5 14.5 4.5 14.1 4.1C11.1 1.1 4.9 1.1 1.9 4.1C1.5 4.5 0.9 4.5 0.5 4.1Z"
-              fill="currentColor"
-            />
-          </svg>
+          <WifiOutlined />
         </div>
         <div className="status-battery">
           <svg

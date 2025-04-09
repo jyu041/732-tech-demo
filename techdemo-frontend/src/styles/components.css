@@ -34,64 +34,7 @@
   align-items: center;
 }
 
-/* Chat components */
-.message-container {
-  display: flex;
-  align-items: flex-end;
-  margin-bottom: 10px;
-  padding: 0 8px;
-}
-
-.message-container-user {
-  justify-content: flex-end;
-}
-
-.message-container-other {
-  justify-content: flex-start;
-}
-
-.message-avatar-container {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  margin: 0 4px 2px 4px;
-}
-
-.message-bubble {
-  max-width: 70%;
-  padding: 8px 12px;
-  border-radius: 18px;
-  position: relative;
-}
-
-.message-user {
-  background-color: var(--bubble-user);
-  border-bottom-right-radius: 4px;
-}
-
-.message-other {
-  background-color: var(--bubble-other);
-  border-bottom-left-radius: 4px;
-}
-
-.message-content {
-  font-size: 14px;
-  line-height: 1.4;
-  word-wrap: break-word;
-}
-
-.message-time {
-  font-size: 10px;
-  color: var(--text-secondary);
-  text-align: right;
-  margin-top: 2px;
-}
-
-.chat-messages {
-  padding: 10px 4px;
-}
-
-/* Enhanced Status Bar */
+/* iPhone status bar */
 .iphone-status-bar {
   height: 44px;
   background-color: var(--bg-primary);
@@ -149,6 +92,7 @@
   align-items: center;
   position: relative;
   z-index: 50;
+  width: 428px; /* Match iPhone width */
 }
 
 .nav-item {
@@ -172,41 +116,19 @@
   margin-top: 4px;
 }
 
-/* Theme-specific bottom nav styling */
-.bottom-nav.theme-instagram {
-  height: 50px;
-}
-
-.bottom-nav.theme-instagram .nav-item {
-  font-size: 10px;
-}
-
-.bottom-nav.theme-discord {
-  background-color: var(--bg-tertiary);
-  height: 60px;
-}
-
-.bottom-nav.theme-discord .nav-item.active {
-  background-color: var(--bg-secondary);
-  border-radius: 8px;
-}
-
-.bottom-nav.theme-wechat {
-  background-color: var(--bg-tertiary);
-  height: 55px;
-}
-
-.bottom-nav.theme-wechat .nav-item.active {
-  color: var(--accent-color);
-}
-
-/* Adjust app-content to account for bottom nav */
+/* App content */
 .app-content {
-  height: calc(100% - 44px - 60px); /* Subtract status bar and bottom nav heights */
-  overflow-y: auto;
   position: relative;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100% - 44px - 60px); /* Subtract status bar and bottom nav heights */
 }
 
+.app-content.no-bottom-nav {
+  height: calc(100% - 44px); /* Only subtract status bar height */
+}
+
+/* Image cropper */
 .image-cropper-container {
   position: absolute;
   top: 0;
@@ -247,7 +169,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  min-height: 300px; /* Add minimum height */
+  min-height: 300px;
 }
 
 .crop-image {
@@ -262,7 +184,6 @@
   border-top: 1px solid var(--border-color);
 }
 
-/* Make ReactCrop container larger */
 .ReactCrop {
   width: 100%;
   max-height: 70vh;
@@ -270,7 +191,6 @@
   justify-content: center;
 }
 
-/* Fix for smaller screens */
 @media (max-height: 600px) {
   .image-cropper-modal {
     max-height: 90%;
@@ -281,13 +201,175 @@
   }
 }
 
-.app-content {
-  height: calc(100% - 44px - 60px); /* Subtract status bar and bottom nav heights */
-  overflow-y: auto;
-  position: relative;
+/* Chat list */
+.chat-list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.app-content.no-bottom-nav {
-  height: calc(100% - 44px); /* Only subtract status bar height */
+.chat-list-item {
+  display: flex;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.chat-list-item:hover {
+  background-color: var(--bg-secondary);
+}
+
+.chat-list-item-details {
+  flex: 1;
+  margin-left: 16px;
   overflow: hidden;
+}
+
+.chat-list-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.chat-list-item-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-list-item-time {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.chat-list-item-message {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Search bar */
+.search-bar {
+  margin: 8px 16px;
+  padding: 8px 12px;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  margin-right: 8px;
+  color: var(--text-secondary);
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Theme-specific styling */
+.theme-instagram-header {
+  justify-content: flex-start;
+  padding-left: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.theme-wechat-header {
+  justify-content: center;
+  background-color: var(--bg-secondary);
+}
+
+.theme-discord-header {
+  background-color: var(--bg-tertiary);
+}
+
+.wechat-search {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.instagram-search {
+  background-color: #efefef;
+  border-radius: 8px;
+}
+
+.instagram-chat-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.instagram-chat-details .chat-list-item-message {
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.theme-instagram .chat-list-item-time {
+  margin-left: auto;
+  font-size: 12px;
+  color: #8e8e8e;
+}
+
+.theme-instagram .search-bar,
+.theme-discord .search-bar {
+  margin: 8px 16px 16px;
+}
+
+.theme-wechat .search-bar {
+  margin: 0 16px 16px;
+}
+
+/* Theme-specific bottom nav */
+.bottom-nav.theme-instagram {
+  height: 50px;
+}
+
+.bottom-nav.theme-instagram .nav-item {
+  font-size: 10px;
+}
+
+.bottom-nav.theme-discord {
+  background-color: var(--bg-tertiary);
+  height: 60px;
+}
+
+.bottom-nav.theme-discord .nav-item.active {
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+}
+
+.bottom-nav.theme-wechat {
+  background-color: var(--bg-tertiary);
+  height: 55px;
+}
+
+.bottom-nav.theme-wechat .nav-item.active {
+  color: var(--accent-color);
+}
+
+/* Home page */
+.home-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.main-content {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
 }

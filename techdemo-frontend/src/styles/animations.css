@@ -1,0 +1,37 @@
+/* styles/animations.css */
+.route-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow-y: auto;
+  background-color: var(--bg-primary);
+  transition: transform 300ms ease-in-out;
+}
+
+/* Sliding in from right */
+.slide-in-right {
+  animation: slideInRight 300ms forwards;
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+}
+
+/* Sliding out to right (for back navigation) */
+.slide-out-right {
+  animation: slideOutRight 100ms forwards;
+}
+
+@keyframes slideOutRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

@@ -1,10 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import chatService from "../../services/chatService";
 import profileService from "../../services/profileService";
 import ChatHeader from "./ChatHeader";
 import ChatBubble from "./ChatBubble";
 import ChatInput from "./ChatInput";
 import ThemeToggle from "../common/ThemeToggle";
+import { ThemeContext, THEMES } from "../../context/ThemeContext";
+import Avatar from "../common/Avatar";
+import React from "react";
 
 const ChatWindow = ({ chatId, user }) => {
   const [messages, setMessages] = useState([]);
@@ -14,6 +17,7 @@ const ChatWindow = ({ chatId, user }) => {
   const [error, setError] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
 
+  const { theme } = useContext(ThemeContext);
   const messagesEndRef = useRef(null);
   const chatMessagesRef = useRef(null);
   const inputRef = useRef(null);
@@ -139,6 +143,17 @@ const ChatWindow = ({ chatId, user }) => {
     }
   };
 
+  // Check if we should show a timestamp based on time difference
+  const shouldShowTimestamp = (current, previous) => {
+    if (!previous) return true;
+
+    const currentTime = new Date(current.timestamp);
+    const previousTime = new Date(previous.timestamp);
+
+    // 2 minutes (120,000 ms) threshold for timestamp
+    return currentTime - previousTime > 120000;
+  };
+
   if (loading) {
     return <div className="loading">Loading conversation...</div>;
   }
@@ -148,7 +163,7 @@ const ChatWindow = ({ chatId, user }) => {
   }
 
   return (
-    <div className="chat-window">
+    <div className={`chat-window ${theme.toLowerCase()}-chat-window`}>
       <div className="chat-header-fixed">
         <ChatHeader
           exGirlfriend={exGirlfriend}
@@ -157,15 +172,132 @@ const ChatWindow = ({ chatId, user }) => {
       </div>
 
       <div className="chat-content" ref={chatMessagesRef}>
-        <div className="chat-messages">
-          {messages.map((message) => (
-            <ChatBubble
-              key={message.id}
-              message={message}
-              userImage={user?.profilePicturePath}
-              exGirlfriendImage={exGirlfriend?.profilePicturePath}
-            />
-          ))}
+        <div className={`chat-messages ${theme.toLowerCase()}-messages`}>
+          {messages.map((message, index) => {
+            // Calculate if we should show timestamp
+            const showTimestamp = shouldShowTimestamp(
+              message,
+              index > 0 ? messages[index - 1] : null
+            );
+
+            // For Discord, use a different component
+            if (theme === THEMES.DISCORD) {
+              return (
+                <React.Fragment key={message.id}>
+                  {showTimestamp && (
+                    <div className="discord-timestamp">
+                      <span>
+                        {new Date(message.timestamp).toLocaleDateString([], {
+                          month: "short",
+                          day: "numeric",
+                        }) +
+                          " at " +
+                          new Date(message.timestamp).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                      </span>
+                    </div>
+                  )}
+                  <div className="discord-message">
+                    <div className="discord-avatar">
+                      <Avatar
+                        src={`http://localhost:8080/uploads/${
+                          message.isFromUser
+                            ? user?.profilePicturePath
+                            : exGirlfriend?.profilePicturePath
+                        }`}
+                        alt={message.isFromUser ? "You" : exGirlfriend?.name}
+                        size="medium"
+                        className="discord-avatar-img"
+                      />
+                    </div>
+                    <div className="discord-message-content">
+                      <div className="discord-message-header">
+                        <span className="discord-username">
+                          {message.isFromUser ? "You" : exGirlfriend?.name}
+                        </span>
+                        <span className="discord-time">
+                          {new Date(message.timestamp).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
+                      </div>
+                      <div className="discord-message-text">
+                        {message.content}
+                      </div>
+                    </div>
+                  </div>
+                </React.Fragment>
+              );
+            }
+
+            // For WeChat and Instagram
+            return (
+              <React.Fragment key={message.id}>
+                {showTimestamp && (
+                  <div className="message-timestamp">
+                    {new Date(message.timestamp).toLocaleDateString([], {
+                      month: "short",
+                      day: "numeric",
+                    }) +
+                      ", " +
+                      new Date(message.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                  </div>
+                )}
+                <div
+                  className={`message-container ${
+                    message.isFromUser
+                      ? "message-container-user"
+                      : "message-container-other"
+                  } ${theme.toLowerCase()}-container`}
+                >
+                  {!message.isFromUser && (
+                    <div className="message-avatar-container">
+                      <Avatar
+                        src={`http://localhost:8080/uploads/${exGirlfriend?.profilePicturePath}`}
+                        alt={exGirlfriend?.name}
+                        size="small"
+                        className="message-avatar-small"
+                      />
+                    </div>
+                  )}
+
+                  <div
+                    className={`message-bubble ${
+                      message.isFromUser ? "message-user" : "message-other"
+                    } ${theme.toLowerCase()}-bubble`}
+                  >
+                    <div className="message-content">{message.content}</div>
+                    {theme !== THEMES.INSTAGRAM && theme !== THEMES.WECHAT && (
+                      <div className="message-time">
+                        {new Date(message.timestamp).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  {message.isFromUser && (
+                    <div className="message-avatar-container">
+                      <Avatar
+                        src={`http://localhost:8080/uploads/${user?.profilePicturePath}`}
+                        alt="You"
+                        size="small"
+                        className="message-avatar-small"
+                      />
+                    </div>
+                  )}
+                </div>
+              </React.Fragment>
+            );
+          })}
+
           <div ref={messagesEndRef} />
         </div>
 
@@ -174,14 +306,14 @@ const ChatWindow = ({ chatId, user }) => {
             <h2>Settings</h2>
             <ThemeToggle />
             <div className="ex-details">
-              <h3>About {exGirlfriend.name}</h3>
-              {exGirlfriend.personality && (
+              <h3>About {exGirlfriend?.name}</h3>
+              {exGirlfriend?.personality && (
                 <div className="personality-section">
                   <h4>Personality</h4>
                   <p>{exGirlfriend.personality}</p>
                 </div>
               )}
-              {exGirlfriend.backstory && (
+              {exGirlfriend?.backstory && (
                 <div className="backstory-section">
                   <h4>Your History</h4>
                   <p>{exGirlfriend.backstory}</p>
@@ -191,8 +323,7 @@ const ChatWindow = ({ chatId, user }) => {
           </div>
         )}
       </div>
-
-      <div className="chat-input-fixed">
+      <div className={`chat-input-fixed ${theme.toLowerCase()}-input-fixed`}>
         <ChatInput
           onSendMessage={handleSendMessage}
           isLoading={sendingMessage}

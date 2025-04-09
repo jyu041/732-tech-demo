@@ -1,60 +1,511 @@
-
+/* Base chat components */
 .chat-window {
     display: flex;
     flex-direction: column;
     height: 100%;
+    max-height: 100%;
+    bottom: 3.1%;
     position: relative;
 }
-
-.chat-header-fixed {
-position: sticky;
-top: 0;
-z-index: 50;
-background-color: var(--bg-primary);
-border-bottom: 1px solid var(--border-color);
-}
-
-.chat-content {
-flex: 1;
-overflow-y: auto;
-padding-bottom: 70px; /* Make room for fixed input */
-}
-
-.chat-input-fixed {
-/* position: fixed; */
-bottom: 0;
-left: 0;
-right: 0;
-background-color: var(--bg-primary);
-border-top: 1px solid var(--border-color);
-z-index: 50;
-/* padding: 8px 0; */
-}
-
-.chat-messages {
-padding: 16px;
-padding-bottom: 16px;
-}
-
-/* Style update for ChatPage component */
-.chat-page {
-height: 100%;
-display: flex;
-flex-direction: column;
-}
-
-/* Ensure these styles are added to make sure headers stay visible in different themes */
-.theme-instagram .chat-header-fixed,
-.theme-instagram .chat-input-fixed {
-background-color: #ffffff;
-}
-
-.theme-discord .chat-header-fixed,
-.theme-discord .chat-input-fixed {
-background-color: #36393f;
-}
-
-.theme-wechat .chat-header-fixed,
-.theme-wechat .chat-input-fixed {
-background-color: #ededed;
-}
+  
+  .chat-header-fixed {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .chat-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 80px; /* Make room for fixed input */
+  }
+  
+  .chat-messages {
+    padding: 16px;
+  }
+  
+  .chat-input-fixed {
+    position: fixed;
+    bottom: 6%;
+    background-color: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+    z-index: 50;
+    width: 405px;
+    /* padding: 8px 0; */
+  }
+  
+  .chat-page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Message container and bubbles */
+  .message-container {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    padding: 0 8px;
+  }
+  
+  .message-container-user {
+    justify-content: flex-end;
+  }
+  
+  .message-container-other {
+    justify-content: flex-start;
+  }
+  
+  .message-avatar-container {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    margin: 0 4px 2px 4px;
+  }
+  
+  .message-bubble {
+    max-width: 70%;
+    padding: 8px 12px;
+    border-radius: 18px;
+    position: relative;
+  }
+  
+  .message-user {
+    background-color: var(--bubble-user);
+    border-bottom-right-radius: 4px;
+  }
+  
+  .message-other {
+    background-color: var(--bubble-other);
+    border-bottom-left-radius: 4px;
+  }
+  
+  .message-content {
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+  
+  .message-time {
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-align: right;
+    margin-top: 2px;
+  }
+  
+  /* WeChat specific styles */
+  .wechat-chat-header {
+    padding: 12px 16px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .wechat-chat-header .center-name {
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  .wechat-back, .wechat-settings {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 4px;
+  }
+  
+  .wechat-back {
+    margin-right: auto;
+  }
+  
+  .wechat-settings {
+    margin-left: auto;
+  }
+  
+  .wechat-container .message-bubble {
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  .wechat-container .message-user {
+    background-color: #95ec69;
+  }
+  
+  .wechat-container .message-other {
+    background-color: #ffffff;
+  }
+  
+  .wechat-messages .message-timestamp {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 16px 0;
+    opacity: 0.7;
+  }
+  
+  .wechat-input-container {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    height: 75px; /* 1.5x height */
+  }
+  
+  .wechat-voice-button, .wechat-emoji-button, .wechat-plus-button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .wechat-input {
+    flex: 1;
+    margin: 0 12px;
+    border-radius: 6px;
+    background-color: #ffffff;
+  }
+  
+  .wechat-buttons {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .wechat-input-fixed {
+    background-color: var(--bg-secondary);
+  }
+  
+  .wechat-chat-window .chat-content {
+    padding-bottom: 100px; /* Taller for WeChat */
+  }
+  
+  /* Instagram specific styles */
+  .instagram-chat-header {
+    padding: 12px 16px;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .instagram-back {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 4px;
+  }
+  
+  .instagram-chat-header .chat-header-profile {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-left: 8px;
+  }
+  
+  .instagram-chat-header .chat-header-name {
+    margin-left: 12px;
+    font-weight: 600;
+  }
+  
+  .instagram-chat-header .chat-header-actions {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .instagram-chat-header .icon-button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+  
+  .instagram-container .message-bubble {
+    border-radius: 22px;
+  }
+  
+  .instagram-container .message-user {
+    background: linear-gradient(45deg, #5851DB, #405DE6, #833AB4);
+    color: white;
+  }
+  
+  .instagram-container .message-other {
+    background-color: #f0f0f0;
+  }
+  
+  .instagram-messages .message-timestamp {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 16px 0;
+    opacity: 0.7;
+  }
+  
+  .instagram-input-container {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .instagram-camera-button {
+    background-color: var(--accent-color);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+  
+  .instagram-input {
+    flex: 1;
+    border-radius: 22px;
+    margin-right: 12px;
+  }
+  
+  .instagram-buttons {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .instagram-icon-button, .instagram-plus-button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 4px;
+  }
+  
+  /* Discord specific styles */
+  .discord-chat-header {
+    padding: 12px 16px;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+  }
+  
+  .discord-back {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 4px;
+    margin-right: 12px;
+  }
+  
+  .discord-chat-header .chat-header-profile {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  
+  .discord-chat-header .chat-header-name {
+    margin-left: 12px;
+    font-weight: 600;
+  }
+  
+  .discord-chat-header .chat-header-actions {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .discord-chat-header .discord-icon-button {
+    background-color: var(--bg-tertiary);
+    border: none;
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .discord-messages {
+    padding: 16px;
+  }
+  
+  .discord-message {
+    display: flex;
+    margin-bottom: 16px;
+    padding: 4px 16px;
+  }
+  
+  .discord-message:hover {
+    background-color: var(--bg-secondary);
+    border-radius: 4px;
+  }
+  
+  .discord-avatar {
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+  
+  .discord-avatar-img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  .discord-message-content {
+    flex: 1;
+  }
+  
+  .discord-message-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  
+  .discord-username {
+    font-weight: 600;
+    margin-right: 8px;
+  }
+  
+  .discord-time {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+  
+  .discord-message-text {
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+  
+  .discord-timestamp {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 16px 0;
+    padding: 2px 8px;
+    opacity: 0.7;
+    position: relative;
+  }
+  
+  .discord-timestamp::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background-color: var(--border-color);
+    z-index: -1;
+  }
+  
+  .discord-timestamp span {
+    background-color: var(--bg-primary);
+    padding: 0 8px;
+  }
+  
+  .discord-input-container {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-primary);
+    gap: 16px;
+  }
+  
+  .discord-input-buttons {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .discord-button {
+    background-color: transparent;
+    border: none;
+    color: var(--text-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .discord-button:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+  }
+  
+  .discord-input-wrapper {
+    flex: 1;
+    position: relative;
+    background-color: var(--bg-tertiary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .discord-input {
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    padding: 12px 40px 12px 16px;
+    color: var(--text-primary);
+  }
+  
+  .discord-input:focus {
+    outline: none;
+  }
+  
+  .discord-emoji-button {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+  
+  .discord-mic-button {
+    background-color: transparent;
+    border: none;
+    color: var(--text-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  /* Theme-specific adjustments */
+  .theme-instagram .chat-header-fixed,
+  .theme-instagram .chat-input-fixed {
+    background-color: #ffffff;
+  }
+  
+  .theme-discord .chat-header-fixed,
+  .theme-discord .chat-input-fixed {
+    background-color: #36393f;
+  }
+  
+  .theme-discord .message-bubble,
+  .theme-discord .chat-input-fixed {
+    background-color: var(--bg-primary);
+  }
+  
+  .theme-wechat .iphone-status-bar,
+  .theme-wechat .chat-header-fixed {
+    background-color: var(--bg-secondary);
+  }
