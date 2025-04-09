@@ -101,7 +101,6 @@ const HomePage = ({ user, setUser }) => {
 
           {!user ? (
             <div className="setup-prompt">
-              <h2>Welcome to Ex-Girlfriend Simulator</h2>
               <p>Please set up your profile to get started.</p>
               <UserProfileForm onUpdate={handleUserUpdate} />
             </div>
@@ -109,14 +108,8 @@ const HomePage = ({ user, setUser }) => {
             <>
               {exGirlfriends.length === 0 ? (
                 <div className="empty-state">
-                  {/* <h2>No Ex-Girlfriends Yet</h2>
-                  <p>Add an ex-girlfriend profile to start chatting.</p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => navigate("/contacts")}
-                  >
-                    Add Ex-Girlfriend
-                  </button> */}
+                  <h2>No Conversations Yet</h2>
+                  <p>Add contacts to start talking with your friends</p>
                 </div>
               ) : (
                 <ChatList userData={user} />
@@ -126,7 +119,7 @@ const HomePage = ({ user, setUser }) => {
         </main>
       </div>
 
-      {showUserForm && (
+      {/* {showUserForm && (
         <div className="modal-overlay">
           <div className="modal-content">
             <button
@@ -138,7 +131,7 @@ const HomePage = ({ user, setUser }) => {
             <UserProfileForm user={user} onUpdate={handleUserUpdate} />
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

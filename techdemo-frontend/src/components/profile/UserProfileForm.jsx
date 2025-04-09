@@ -99,8 +99,6 @@ const UserProfileForm = ({ user, onUpdate }) => {
 
   return (
     <div className="profile-form user-profile-form">
-      <h2>Your Profile</h2>
-
       {error && <div className="message message-error">{error}</div>}
       {success && <div className="message message-success">{success}</div>}
 
